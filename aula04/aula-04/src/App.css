@@ -1,0 +1,10 @@
+.fonte {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	color: blue;
+}
+
+.estilo {
+	font-size: 50;
+	margin-left: 10;
+	color: '#FF0000';
+}
