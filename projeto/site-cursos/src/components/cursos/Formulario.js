@@ -1,9 +1,15 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import {
-    setCursoCodigo
+    setCursoCodigo,
+    setCursoDescricao,
+    setCursoCargaHoraria,
+    setCursoPreco,
+    setCursoCategoria,
+    limparFormularioCurso,
+    salvarCurso
 } from '../../actions/cursos';
 
 const FormularioCursos = props => {
@@ -22,16 +28,15 @@ const FormularioCursos = props => {
         isPrecoValido,
         isCategoriaValido,
 
-        isFormValido,
-        
-        setCursoCodigo,
-        setDescricao,
-        setCargaHoraria,
-        setPreco,
-        setCategoria,
 
-        salvar,
-        limpar
+        setCursoCodigo,
+        setCursoDescricao,
+        setCursoCargaHoraria,
+        setCursoPreco,
+        setCursoCategoria,
+
+        salvarCurso,
+        limparFormularioCurso
     } = props;
 
 
@@ -60,7 +65,7 @@ const FormularioCursos = props => {
                         <input type="text"
                             className="form-control" id="descricao"
                             value={descricao}
-                            onChange={setDescricao} />
+                            onChange={setCursoDescricao} />
                     </div>
                 </div>
                 <div className={"form-group row " + (!isCargaHorariaValido ? 'errorInput' : '')}>
@@ -71,7 +76,7 @@ const FormularioCursos = props => {
                         <input type="number"
                             className="form-control" id="cargaHoraria"
                             value={cargaHoraria}
-                            onChange={setCargaHoraria} />
+                            onChange={setCursoCargaHoraria} />
                     </div>
                 </div>
 
@@ -83,7 +88,7 @@ const FormularioCursos = props => {
                         <input type="number"
                             className="form-control" id="preco"
                             value={preco}
-                            onChange={setPreco}/>
+                            onChange={setCursoPreco} />
                     </div>
                 </div>
 
@@ -92,8 +97,8 @@ const FormularioCursos = props => {
                         className="col-sm-3 col-form-label">Categoria:</label>
                     <div className="col-sm-9">
                         <select className="form-control" id="categoria"
-                            value={categoria} 
-                            onChange={setCategoria}>
+                            value={categoria}
+                            onChange={setCursoCategoria}>
                             <option>INFORMATICA</option>
                             <option>ENGENHARIA</option>
                             <option>ADMINISTRACAO</option>
@@ -103,13 +108,25 @@ const FormularioCursos = props => {
                 </div>
                 <div className="form-group row">
                     <button
-                        className="btn btn-primary ml-3 mb-3" disabled={!isFormValido}
-                        onClick={salvar}>
+                        className="btn btn-primary ml-3 mb-3"
+                        onClick={e => salvarCurso(e, {
+                            _id,
+                            codigo,
+                            descricao,
+                            cargaHoraria,
+                            preco,
+                            categoria,
+                            isCodigoValido,
+                            isDescricaoValido,
+                            isCargaHorariaValido,
+                            isPrecoValido,
+                            isCategoriaValido
+                        })}>
                         {_id ? 'Atualizar' : 'Adicionar'}
                     </button>
                     <button
                         className="btn btn-secondary ml-3 mb-3"
-                        type="button" onClick={limpar}>
+                        type="button" onClick={limparFormularioCurso}>
                         Limpar
                     </button>
                 </div>
@@ -133,9 +150,15 @@ const mapStoreToProps = store => ({
 });
 
 const mapActionToProps = dispatch => bindActionCreators({
-    setCursoCodigo
+    setCursoCodigo,
+    setCursoDescricao,
+    setCursoCargaHoraria,
+    setCursoPreco,
+    setCursoCategoria,
+    limparFormularioCurso,
+    salvarCurso
 }, dispatch);
 
 const conectado = connect(mapStoreToProps, mapActionToProps)(FormularioCursos);
 
-export {conectado as FormularioCursos}
+export { conectado as FormularioCursos }

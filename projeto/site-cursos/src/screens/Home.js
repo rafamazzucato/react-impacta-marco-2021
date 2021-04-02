@@ -7,7 +7,6 @@ import {
     limparContato
 } from '../actions/contato';
 
-
 const HomeScreen = props => {
     
     const {limparContato} = props;

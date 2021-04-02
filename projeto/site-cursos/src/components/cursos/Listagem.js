@@ -4,15 +4,16 @@ import { bindActionCreators } from 'redux';
 
 import {
     getCursos,
-    excluirCurso
+    excluirCurso,
+    selecionarCursoToForm
 } from '../../actions/cursos';
 
 const ListagemCursos = props => {
-    const { listaCursos, getCursos, excluirCurso, isPublic } = props;
+    const { listaCursos, getCursos, excluirCurso, selecionarCursoToForm, isPublic } = props;
 
     useEffect(()=> {
         getCursos();   
-    }, []);
+    }, [getCursos]);
 
     const exibirLinhas = () => {
         const cursos = listaCursos || [];
@@ -31,7 +32,7 @@ const ListagemCursos = props => {
                     :
 
                     <td >
-                        <button className="btn btn-success ml-2">
+                        <button className="btn btn-success ml-2" onClick={_ => selecionarCursoToForm(curso)}>
                             <i className="fa fa-check"></i>
                         </button>
                         <button className="btn btn-danger ml-2" onClick={_ => excluirCurso(curso._id)}>
@@ -78,7 +79,8 @@ const mapStoreToProps = store => ({
 
 const mapActionToProps = dispatch => bindActionCreators({
     getCursos,
-    excluirCurso
+    excluirCurso,
+    selecionarCursoToForm
 }, dispatch);
 
 const conectado = connect(mapStoreToProps, mapActionToProps)(ListagemCursos);
