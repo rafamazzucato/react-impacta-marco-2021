@@ -1,27 +1,10 @@
-import axios from 'axios';
-import { useState, useEffect } from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
-import swal from 'sweetalert';
+import {connect} from 'react-redux';
 
-const URL = "http://localhost:3200/api/cursos";
+const Menu = props => {
 
-export const Menu = props => {
-    const [cursos, setCursos] = useState([]);
-    const getCursos = async () => {
-        try {
-            const response = await axios.get(URL);
-            if (response && response.data) {
-                setCursos(response.data);
-            }
-        } catch (e) {
-            console.log(e);
-            swal("Erro!", "Não foi possível listar cursos, tente novamente mais tarde!", "error");
-        }
-    }
-
-    useEffect(() =>{
-        getCursos();
-    }, []);
+    const {listaCursos} = props;
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -40,7 +23,7 @@ export const Menu = props => {
             <div className="collapse navbar-collapse" id="navbarContent">
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
-                        <Link className="nav-link" to="/cursos">Cursos{cursos ? `(${cursos.length})` : ''}</Link>
+                        <Link className="nav-link" to="/cursos">Cursos{listaCursos ? `(${listaCursos.length})` : ''}</Link>
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to="/contato">Contato</Link>
@@ -50,3 +33,11 @@ export const Menu = props => {
         </nav>
     );
 }
+
+const mapStoreToProps = store =>({
+    listaCursos : store.cursos.lista
+});
+
+const conectado = connect(mapStoreToProps, null)(Menu);
+
+export { conectado as Menu}

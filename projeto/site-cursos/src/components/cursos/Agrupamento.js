@@ -24,36 +24,10 @@ export class AgrupamentoCurso extends React.Component {
     }
 
     state = {
-        ...this.initialState,
-        cursos: []
+        ...this.initialState
     }
 
-    async componentDidMount() {
-        await this.getCursos();
-    }
-
-    async getCursos() {
-        try {
-            const response = await axios.get(URL);
-            if (response && response.data) {
-                this.setState({ cursos: response.data });
-            }
-        } catch (e) {
-            console.log(e);
-            swal("Erro!", "Não foi possível listar cursos, tente novamente mais tarde!", "error");
-        }
-    }
-
-    setCodigo(evento) {
-        const value = evento?.target?.value;
-        if (!value || parseInt(value) < 99) {
-            this.setState({ isCodigoValido: false });
-        } else {
-            this.setState({ isCodigoValido: true });
-        }
-
-        this.setState({ codigo: value });
-    }
+    
 
     setDescricao(evento) {
         const value = evento?.target?.value;
@@ -163,26 +137,7 @@ export class AgrupamentoCurso extends React.Component {
         this.setState(this.initialState);
     }
 
-    async excluir(id) {
-        try {
-            const result = await swal({
-                title: "Tem certeza?",
-                text: "Após deletado, o curso não poderá ser restaurado",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            });
-
-            if (result) {
-                await axios.delete(URL + '/' + id);
-                await this.getCursos();
-                swal("Parabéns!", "Curso deletado com sucesso", "success");
-            }
-        } catch (e) {
-            console.log(e);
-            swal("Erro!", "Não foi possível excluir curso, tente novamente mais tarde!", "error");
-        }
-    }
+    
 
     async selecionar(id) {
         try {
@@ -209,58 +164,13 @@ export class AgrupamentoCurso extends React.Component {
     }
 
     render() {
-
-        const {
-            cursos,
-
-            _id,
-            codigo,
-            isCodigoValido,
-            descricao,
-            isDescricaoValido,
-            cargaHoraria,
-            isCargaHorariaValido,
-            preco,
-            isPrecoValido,
-            categoria,
-            isCategoriaValido
-        } = this.state;
-
         return (
             <div className="row border-bottom">
                 <div className="col-md-6">
-                    <FormularioCursos
-                        codigo={codigo}
-                        descricao={descricao}
-                        cargaHoraria={cargaHoraria}
-                        preco={preco}
-                        categoria={categoria}
-
-                        isCodigoValido={isCodigoValido}
-                        isDescricaoValido={isDescricaoValido}
-                        isCargaHorariaValido={isCargaHorariaValido}
-                        isPrecoValido={isPrecoValido}
-                        isCategoriaValido={isCategoriaValido}
-
-                        isFormValido={this.isFormValido()}
-                        isAtualizacao={_id && _id.length > 0}
-
-                        setCodigo={this.setCodigo.bind(this)}
-                        setDescricao={this.setDescricao.bind(this)}
-                        setCargaHoraria={this.setCargaHoraria.bind(this)}
-                        setPreco={this.setPreco.bind(this)}
-                        setCategoria={this.setCategoria.bind(this)}
-
-                        salvar={this.salvar.bind(this)}
-                        limpar={this.limpar.bind(this)}
-                    />
+                    <FormularioCursos/>
                 </div>
                 <div className="col-md-6">
-                    <ListagemCursos
-                        cursos={cursos}
-                        excluir={this.excluir.bind(this)}
-                        selecionar={this.selecionar.bind(this)}
-                    />
+                    <ListagemCursos />
                 </div>
             </div>
         );

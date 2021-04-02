@@ -8,7 +8,7 @@ import {
     CONTATO_TYPE_LIMPAR,
     CONTATO_TYPE_SET_MSG_ERRO,
     CONTATO_TYPE_SET_MSG_SUCESSO
-} from '../actions/contato'
+} from '../actions/contato';
 
 const INITIAL_STATE = {
     data : moment().format('yyyy-MM-DD'),

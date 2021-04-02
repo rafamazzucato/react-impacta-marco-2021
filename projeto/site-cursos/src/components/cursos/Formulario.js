@@ -1,8 +1,15 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
-export const FormularioCursos = props => {
+import {
+    setCursoCodigo
+} from '../../actions/cursos';
+
+const FormularioCursos = props => {
 
     const {
+        _id,
         codigo,
         descricao,
         cargaHoraria,
@@ -16,9 +23,8 @@ export const FormularioCursos = props => {
         isCategoriaValido,
 
         isFormValido,
-        isAtualizacao,
-
-        setCodigo,
+        
+        setCursoCodigo,
         setDescricao,
         setCargaHoraria,
         setPreco,
@@ -42,7 +48,7 @@ export const FormularioCursos = props => {
                         <input type="number"
                             className={`form-control`} id="codigo"
                             value={codigo}
-                            onChange={setCodigo} />
+                            onChange={setCursoCodigo} />
                     </div>
                 </div>
                 <div className={"form-group row " + (!isDescricaoValido ? 'errorInput' : '')}>
@@ -99,7 +105,7 @@ export const FormularioCursos = props => {
                     <button
                         className="btn btn-primary ml-3 mb-3" disabled={!isFormValido}
                         onClick={salvar}>
-                        {isAtualizacao ? 'Atualizar' : 'Adicionar'}
+                        {_id ? 'Atualizar' : 'Adicionar'}
                     </button>
                     <button
                         className="btn btn-secondary ml-3 mb-3"
@@ -111,3 +117,25 @@ export const FormularioCursos = props => {
         </div>
     );
 }
+
+const mapStoreToProps = store => ({
+    _id: store.cursos._id,
+    codigo: store.cursos.codigo,
+    isCodigoValido: store.cursos.isCodigoValido,
+    descricao: store.cursos.descricao,
+    isDescricaoValido: store.cursos.isDescricaoValido,
+    cargaHoraria: store.cursos.cargaHoraria,
+    isCargaHorariaValido: store.cursos.isCargaHorariaValido,
+    preco: store.cursos.preco,
+    isPrecoValido: store.cursos.isPrecoValido,
+    categoria: store.cursos.categoria,
+    isCategoriaValido: store.cursos.isCategoriaValido
+});
+
+const mapActionToProps = dispatch => bindActionCreators({
+    setCursoCodigo
+}, dispatch);
+
+const conectado = connect(mapStoreToProps, mapActionToProps)(FormularioCursos);
+
+export {conectado as FormularioCursos}
